@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/custom_bottom_navigation_bar.dart';
 import 'blank_page.dart';
 import 'entry_page.dart';
 import 'gemini_page.dart';
@@ -71,8 +72,12 @@ class _ToDoPageState extends State<ToDoPage> {
                         _tasks.where((task) => task['isDone']).toList())));
         break;
       case 2:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const GeminiPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GeminiPage(
+                    incompleteTasks:
+                        _tasks.where((task) => !task['isDone']).toList())));
         break;
       case 3:
         Navigator.push(context,
@@ -133,35 +138,8 @@ class _ToDoPageState extends State<ToDoPage> {
         child: const Icon(Icons.add, size: 32),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8.0,
-        color: const Color(0xFFF0F9FF),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () => _navigateToPage(0),
-              ),
-              IconButton(
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () => _navigateToPage(1),
-              ),
-              const SizedBox(width: 40),
-              IconButton(
-                icon: const Icon(Icons.description),
-                onPressed: () => _navigateToPage(2),
-              ),
-              IconButton(
-                icon: const Icon(Icons.group),
-                onPressed: () => _navigateToPage(3),
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        onItemTapped: _navigateToPage,
       ),
     );
   }
